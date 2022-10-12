@@ -58,7 +58,7 @@ public class CategoryController {
     }
 
     /**
-     * 根据条件查询分类数据
+     * 根据条件查询分类数据，查询
      * @param category
      * @return
      */
