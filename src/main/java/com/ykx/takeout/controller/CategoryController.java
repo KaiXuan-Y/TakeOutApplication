@@ -62,6 +62,8 @@ public class CategoryController {
      * @param category
      * @return
      */
+
+
     @GetMapping("/list")
     public R<List<Category>> list( Category category){
         LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
