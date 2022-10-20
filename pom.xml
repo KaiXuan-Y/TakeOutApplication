@@ -12,7 +12,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.4.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        project <!-- lookup parent from repository -->
     </parent>
     <dependencies>
 
@@ -21,6 +21,10 @@
             <artifactId>aliyun-java-sdk-core</artifactId>
             <version>4.5.16</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
@@ -77,6 +81,11 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.1.23</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>2.7.1</version>
         </dependency>
 
     </dependencies>

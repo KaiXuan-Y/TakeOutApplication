@@ -1,0 +1,25 @@
+package com.ykx.takeout.config;
+
+import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+/**
+ * Created on 2022/10/20.
+ *
+ * @author KaiXuan Yang
+ */
+@Configuration
+public class RedisConfig extends CachingConfigurerSupport {
+    @SuppressWarnings("all")
+    @Bean
+    public RedisTemplate<Object , Object> redisTemplate(RedisConnectionFactory connectionFactory){
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setConnectionFactory(connectionFactory);
+        return redisTemplate;
+    }
+}
