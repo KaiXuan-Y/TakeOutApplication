@@ -15,7 +15,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 @Configuration
 public class RedisConfig extends CachingConfigurerSupport {
-    @SuppressWarnings("all")
     @Bean
     public RedisTemplate<Object , Object> redisTemplate(RedisConnectionFactory connectionFactory){
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
