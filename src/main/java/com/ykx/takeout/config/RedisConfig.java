@@ -7,6 +7,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+
 /**
  * Created on 2022/10/20.
  *
@@ -23,4 +24,6 @@ public class RedisConfig extends CachingConfigurerSupport {
         return redisTemplate;
 
     }
+
+
 }

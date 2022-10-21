@@ -14,10 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -40,6 +43,8 @@ public class DishController {
     @Autowired
     private DishService dishService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
     @PostMapping
     public R<String> save(@RequestBody DishDto dishDto){
 
@@ -93,6 +98,10 @@ public class DishController {
     public R<String> update(@RequestBody DishDto dishDto){
 
         dishService.updateWithFlavor(dishDto);
+        //清理所有菜品的缓存数据
+        Long categoryId = dishDto.getCategoryId();
+        String key = "dish_" + categoryId +"_1";
+        redisTemplate.delete(key);
         return R.success("菜品修改成功");
     }
 
@@ -106,12 +115,23 @@ public class DishController {
 
     @GetMapping("/list")
     public R<List<DishDto>> list(Dish dish){
+        List<DishDto> dishDtos = null;
+        String key = "dish_" + dish.getCategoryId() + "_" +dish.getStatus(); //dish_cateId_1
+        //从Redis中获取缓存数据
+
+        dishDtos = (List<DishDto>) redisTemplate.opsForValue().get(key);
+        //如果存在直接返回
+        if (dishDtos != null){
+            return R.success(dishDtos);
+        }
+
+        //如果不存在，查询数据库
         LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(dish.getCategoryId()!= null,Dish::getCategoryId , dish.getCategoryId());
         queryWrapper.eq(Dish::getStatus , 1);
         queryWrapper.orderByAsc(Dish::getSort).orderByAsc(Dish::getUpdateTime);
         List<Dish> list = dishService.list(queryWrapper);
-        List<DishDto> dishDtos = list.stream().map((item) -> {
+        dishDtos = list.stream().map((item) -> {
             DishDto dishDto = new DishDto();
             BeanUtils.copyProperties(item, dishDto);
             Long dishId = item.getId();
@@ -122,6 +142,7 @@ public class DishController {
             return dishDto;
 
         }).collect(Collectors.toList());
+        redisTemplate.opsForValue().set(key , dishDtos , 60 , TimeUnit.MINUTES);
         return R.success(dishDtos);
     }
 
