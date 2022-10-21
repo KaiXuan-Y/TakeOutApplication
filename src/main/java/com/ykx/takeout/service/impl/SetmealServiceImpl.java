@@ -50,6 +50,7 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper , Setmeal> imp
             throw new CustomException("套餐正在售卖中，不能删除");
         }
 
+
         this.removeByIds(ids);
 
         LambdaQueryWrapper<SetmealDish> setmealDishLambdaQueryWrapper = new LambdaQueryWrapper<>();
