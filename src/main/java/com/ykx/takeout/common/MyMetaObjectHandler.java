@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
-import javax.xml.ws.soap.MTOM;
 import java.time.LocalDateTime;
 
 /**

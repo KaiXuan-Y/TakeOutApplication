@@ -56,7 +56,5 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper , Setmeal> imp
         LambdaQueryWrapper<SetmealDish> setmealDishLambdaQueryWrapper = new LambdaQueryWrapper<>();
         setmealDishLambdaQueryWrapper.in(SetmealDish::getSetmealId , ids);
         setmealDishService.remove(setmealDishLambdaQueryWrapper);
-
-
     }
 }
